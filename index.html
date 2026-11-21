@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eksplorasi Fungsi Kuadrat - Lemparan Bola</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Arial,sans-serif;
+ background:#f1f5f9;color:#172554
+}
+header{
+ background:linear-gradient(120deg,#123b70,#2563eb);
+ color:white;padding:25px;text-align:center
+}
+header h1{margin:0 0 8px}
+.container{max-width:1100px;margin:auto;padding:18px}
+.card{
+ background:white;padding:20px;border-radius:15px;
+ margin-bottom:18px;box-shadow:0 3px 12px #00000012
+}
+h2{color:#1d4ed8;margin-top:0}
+.controls{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:18px
+}
+label{font-weight:bold;display:block;margin-bottom:8px}
+input[type=range]{width:100%;accent-color:#2563eb}
+button{
+ border:0;background:#2563eb;color:white;padding:11px 17px;
+ border-radius:8px;cursor:pointer;margin:5px
+}
+button:hover{background:#1e40af}
+canvas{
+ width:100%;height:390px;border:1px solid #cbd5e1;
+ border-radius:10px;background:#fff;display:block
+}
+.result{
+ background:#eff6ff;padding:15px;border-radius:10px;
+ line-height:1.8
+}
+.big{font-size:20px;font-weight:bold;color:#1d4ed8}
+.question{line-height:1.8}
+input[type=number]{
+ padding:9px;width:90px;border:1px solid #94a3b8;border-radius:6px
+}
+.feedback{font-weight:bold;margin-top:10px}
+footer{text-align:center;padding:20px;color:#64748b}
+@media(max-width:600px){canvas{height:300px}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🏀 Eksplorasi Fungsi Kuadrat</h1>
+<p>Menemukan Persamaan Fungsi dari Lintasan Lemparan Bola</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h2>1. Situasi Kontekstual</h2>
+<p>
+Seorang siswa melempar bola ke udara. Bola bergerak naik,
+mencapai ketinggian maksimum, kemudian turun kembali.
+Lintasan bola membentuk kurva parabola yang dapat dimodelkan
+menggunakan fungsi kuadrat.
+</p>
+<p>
+Amati grafik berikut. Ubahlah tinggi maksimum dan jarak
+horizontal untuk melihat perubahan lintasan bola.
+</p>
+</div>
+
+<div class="card">
+<h2>2. Laboratorium Lemparan Bola</h2>
+<div class="controls">
+ <div>
+  <label>Tinggi maksimum: <span id="tinggiLabel">8</span> meter</label>
+  <input id="tinggi" type="range" min="3" max="20" value="8">
+ </div>
+ <div>
+  <label>Jarak horizontal: <span id="jarakLabel">12</span> meter</label>
+  <input id="jarak" type="range" min="6" max="24" value="12">
+ </div>
+ <div>
+  <label>Titik awal lemparan: <span id="awalLabel">0</span> meter</label>
+  <input id="awal" type="range" min="0" max="5" value="0">
+ </div>
+</div>
+
+<br>
+<canvas id="grafik" width="900" height="390"></canvas>
+<button onclick="lempar()">▶ Animasi Lemparan</button>
+<button onclick="pauseAnim()">⏸ Berhenti</button>
+<button onclick="resetAnim()">↻ Ulangi</button>
+</div>
+
+<div class="card">
+<h2>3. Analisis Fungsi Kuadrat</h2>
+<div class="result">
+ <div class="big" id="persamaan">f(x) = ...</div>
+ <div id="informasi"></div>
+</div>
+<p>
+Perhatikan bagaimana perubahan tinggi maksimum dan jarak
+horizontal memengaruhi koefisien fungsi kuadrat.
+</p>
+</div>
+
+<div class="card">
+<h2>4. Menemukan Fungsi Kuadrat dari Tiga Titik</h2>
+<p>
+Misalkan hasil pengamatan menunjukkan tiga titik pada lintasan
+bola. Masukkan koordinat titik tersebut untuk menemukan
+persamaan fungsi kuadrat.
+</p>
+<div class="controls">
+ <div>
+  <label>Titik A (x₁, y₁)</label>
+  x₁ <input id="x1" type="number" value="0">
+  y₁ <input id="y1" type="number" value="0">
+ </div>
+ <div>
+  <label>Titik B (x₂, y₂)</label>
+  x₂ <input id="x2" type="number" value="4">
+  y₂ <input id="y2" type="number" value="8">
+ </div>
+ <div>
+  <label>Titik C (x₃, y₃)</label>
+  x₃ <input id="x3" type="number" value="8">
+  y₃ <input id="y3" type="number" value="0">
+ </div>
+</div>
+<button onclick="hitungTigaTitik()">Temukan Fungsi Kuadrat</button>
+<div class="result" id="hasilTigaTitik">
+Hasil perhitungan akan ditampilkan di sini.
+</div>
+</div>
+
+<div class="card">
+<h2>5. Tantangan Berpikir Kritis</h2>
+<div class="question">
+<p><b>Kasus:</b> Seorang pemain melempar bola dari ketinggian
+1 meter. Bola mencapai tinggi maksimum 9 meter setelah
+menempuh jarak horizontal 4 meter dari titik lemparan.
+Bola kemudian jatuh pada jarak horizontal 8 meter.</p>
+
+<p><b>Pertanyaan:</b></p>
+<ol>
+<li>Bagaimana menentukan koordinat titik puncak lintasan?</li>
+<li>Mengapa grafik lintasan bola berbentuk parabola terbuka ke bawah?</li>
+<li>Tentukan fungsi kuadrat yang memodelkan lintasan tersebut.</li>
+<li>Pada jarak horizontal berapa bola kembali menyentuh tanah?</li>
+<li>Bagaimana perubahan tinggi maksimum memengaruhi bentuk grafik?</li>
+</ol>
+</div>
+</div>
+
+<div class="card">
+<h2>6. Refleksi Pembelajaran</h2>
+<p>Lengkapi refleksi berikut:</p>
+<textarea id="refleksi" rows="4" style="width:100%;padding:12px;border:1px solid #94a3b8;border-radius:8px"
+placeholder="Tuliskan hal yang kamu pahami, strategi yang digunakan, dan kesulitan yang ditemukan..."></textarea>
+<br><br>
+<button onclick="simpanRefleksi()">Simpan Refleksi</button>
+<div id="refleksiHasil"></div>
+</div>
+
+</div>
+
+<footer>
+Media Pembelajaran Matematika | Materi Fungsi Kuadrat
+</footer>
+
+<script>
+const canvas=document.getElementById("grafik");
+const ctx=canvas.getContext("2d");
+
+const tinggi=document.getElementById("tinggi");
+const jarak=document.getElementById("jarak");
+const awal=document.getElementById("awal");
+
+let animasi=null;
+let posisi=0;
+let sedangAnimasi=false;
+
+function data(){
+ const h=Number(tinggi.value);
+ const d=Number(jarak.value);
+ const s=Number(awal.value);
+
+ // Kurva melalui (s,0), (s+d/2,h), (s+d,0)
+ const a=-4*h/(d*d);
+ const b=-2*a*s-2*a*d/2;
+ const c=a*s*s+b*s;
+ return {a,b,c,h,d,s};
+}
+
+function f(x,p){
+ return p.a*x*x+p.b*x+p.c;
+}
+
+function gambar(){
+ const p=data();
+ document.getElementById("tinggiLabel").textContent=p.h;
+ document.getElementById("jarakLabel").textContent=p.d;
+ document.getElementById("awalLabel").textContent=p.s;
+
+ const W=canvas.width,H=canvas.height;
+ ctx.clearRect(0,0,W,H);
+
+ const maxX=p.s+p.d+3;
+ const maxY=p.h+4;
+ const sx=(W-80)/maxX;
+ const sy=(H-65)/maxY;
+ const X=x=>50+x*sx;
+ const Y=y=>H-35-y*sy;
+
+ // Grid
+ ctx.strokeStyle="#e2e8f0";
+ ctx.lineWidth=1;
+ for(let x=0;x<=maxX;x+=2){
+  ctx.beginPath();ctx.moveTo(X(x),15);ctx.lineTo(X(x),H-35);ctx.stroke();
+ }
+ for(let y=0;y<=maxY;y+=2){
+  ctx.beginPath();ctx.moveTo(50,Y(y));ctx.lineTo(W-20,Y(y));ctx.stroke();
+ }
+
+ // Sumbu
+ ctx.strokeStyle="#334155";ctx.lineWidth=2;
+ ctx.beginPath();ctx.moveTo(50,Y(0));ctx.lineTo(W-15,Y(0));ctx.stroke();
+ ctx.beginPath();ctx.moveTo(50,15);ctx.lineTo(50,H-35);ctx.stroke();
+
+ ctx.fillStyle="#334155";ctx.font="13px Arial";
+ ctx.fillText("Jarak horizontal (meter)",W-190,H-8);
+ ctx.fillText("Tinggi (m)",8,16);
+
+ // Parabola
+ ctx.beginPath();
+ ctx.strokeStyle="#2563eb";ctx.lineWidth=4;
+ for(let x=p.s;x<=p.s+p.d;x+=0.04){
+  const px=X(x),py=Y(f(x,p));
+  if(x===p.s)ctx.moveTo(px,py);
+  else ctx.lineTo(px,py);
+ }
+ ctx.stroke();
+
+ // Titik puncak
+ const xp=p.s+p.d/2;
+ ctx.fillStyle="#dc2626";
+ ctx.beginPath();ctx.arc(X(xp),Y(p.h),7,0,Math.PI*2);ctx.fill();
+ ctx.fillText("Puncak ("+xp.toFixed(1)+","+p.h+")",X(xp)+10,Y(p.h)-10);
+
+ // Titik awal dan akhir
+ ctx.fillStyle="#16a34a";
+ [p.s,p.s+p.d].forEach(x=>{
+  ctx.beginPath();ctx.arc(X(x),Y(0),6,0,Math.PI*2);ctx.fill();
+ });
+
+ // Bola bergerak
+ if(sedangAnimasi){
+  const x=p.s+posisi*p.d;
+  const y=f(x,p);
+  ctx.fillStyle="#f97316";
+  ctx.beginPath();ctx.arc(X(x),Y(y),10,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#7c2d12";
+  ctx.fillText("🏀",X(x)-9,Y(y)+5);
+ }
+
+ const bentuk=p.a<0?"terbuka ke bawah":"terbuka ke atas";
+ document.getElementById("persamaan").textContent=
+ "f(x) = "+p.a.toFixed(3)+"x² + "+p.b.toFixed(3)+"x + "+p.c.toFixed(3);
+
+ document.getElementById("informasi").innerHTML=
+ "Koefisien a = "+p.a.toFixed(3)+"<br>"+
+ "Koefisien b = "+p.b.toFixed(3)+"<br>"+
+ "Koefisien c = "+p.c.toFixed(3)+"<br>"+
+ "Titik puncak = ("+xp.toFixed(2)+", "+p.h.toFixed(2)+")<br>"+
+ "Sumbu simetri: x = "+xp.toFixed(2)+"<br>"+
+ "Titik awal: ("+p.s+", 0)<br>"+
+ "Titik akhir: ("+(p.s+p.d)+", 0)<br>"+
+ "Bentuk parabola: "+bentuk;
+}
+
+function lempar(){
+ if(animasi)cancelAnimationFrame(animasi);
+ posisi=0;sedangAnimasi=true;
+ function gerak(){
+  posisi+=0.004;
+  if(posisi>=1){
+   posisi=1;sedangAnimasi=false;
+  }
+  gambar();
+  if(sedangAnimasi)animasi=requestAnimationFrame(gerak);
+ }
+ gerak();
+}
+function pauseAnim(){
+ sedangAnimasi=false;
+ if(animasi)cancelAnimationFrame(animasi);
+ gambar();
+}
+function resetAnim(){
+ pauseAnim();posisi=0;gambar();
+}
+
+[tinggi,jarak,awal].forEach(el=>el.addEventListener("input",()=>{
+ pauseAnim();gambar();
+}));
+
+function hitungTigaTitik(){
+ const x1=+document.getElementById("x1").value;
+ const y1=+document.getElementById("y1").value;
+ const x2=+document.getElementById("x2").value;
+ const y2=+document.getElementById("y2").value;
+ const x3=+document.getElementById("x3").value;
+ const y3=+document.getElementById("y3").value;
+
+ const den=(x1-x2)*(x1-x3)*(x2-x3);
+ if(Math.abs(den)<1e-10){
+  document.getElementById("hasilTigaTitik").textContent=
+  "Ketiga nilai x harus berbeda.";
+  return;
+ }
+
+ const a=(x3*(y2-y1)+x2*(y1-y3)+x1*(y3-y2))/den;
+ const b=(x3*x3*(y1-y2)+x2*x2*(y3-y1)+x1*x1*(y2-y3))/den;
+ const c=(x2*x3*(x2-x3)*y1+
+          x3*x1*(x3-x1)*y2+
+          x1*x2*(x1-x2)*y3)/den;
+
+ document.getElementById("hasilTigaTitik").innerHTML=
+ "<b>Hasil:</b><br> a = "+a.toFixed(4)+
+ "<br>b = "+b.toFixed(4)+
+ "<br>c = "+c.toFixed(4)+
+ "<br><br><b>Persamaan fungsi kuadrat:</b><br>"+
+ "f(x) = "+a.toFixed(4)+"x² + "+
+ b.toFixed(4)+"x + "+c.toFixed(4);
+}
+
+function simpanRefleksi(){
+ const isi=document.getElementById("refleksi").value.trim();
+ if(!isi){alert("Tuliskan refleksi terlebih dahulu.");return;}
+ document.getElementById("refleksiHasil").innerHTML=
+ "<p><b>Refleksi tersimpan pada tampilan ini.</b></p>";
+}
+
+gambar();
+</script>
+</body>
+</html>
